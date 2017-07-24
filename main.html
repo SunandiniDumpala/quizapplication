@@ -1,0 +1,41 @@
+<div id="quiz">
+	<div class="bgcolor">
+		<div class="head1">What do you know <span class="head2">?</span></div>
+ 
+		<div class="progress">
+			<div class=" {{ ($index === activeQuestion) ? 'on' : 'off' }} 
+						 {{ (thisQuestion.questionState === 'answered') ? 'answered' : 'unanswered' }}
+						 {{ (thisQuestion.correctness === 'correct') ? 'correct' : 'incorrect' }} "
+				 ng-repeat="thisQuestion in myQuestions">
+			</div> 
+		</div><!-- progress -->
+		<div class="intro {{ (activeQuestion > -1) ? 'inactive' : 'active' }}">
+			<h2>Welcome</h2>
+			<p>Click begin to test your knowledge.</p>
+			<p class="butn" ng-click="activeQuestion = 0">Begin</p>
+		</div><!-- intro -->
+		<div class="question
+					{{ (thisQuestion.questionState === 'answered') ? 'answered' : 'unanswered'}}
+					{{ ($index === activeQuestion) ? 'active' : 'inactive'}}" 
+					ng-repeat="thisQuestion in myQuestions">
+			<p class="que">{{thisQuestion.question}}</p>
+			<p class="ans" 
+				ng-class="{image:Answer.image, selected:isSelected($parent.$index,$index) , correct:isCorrect($parent.$index,$index)}"
+				ng-style="{ 'background-image' : 'url({{Answer.image}})' }"
+				ng-click="clickAnswer($parent.$index,$index)"
+				ng-repeat="Answer in myQuestions[$index].answers">{{ Answer.text }}</p>
+			<div class="feedback">
+				<p style="color: forestgreen;" ng-show="(thisQuestion.correctness) === 'correct'" >Yaay!!! You got it correct</p>
+				<p style="color: chocolate;" ng-show= "(thisQuestion.correctness) === 'incorrect'" >Sorry! That is incorrect</p>
+				<p>{{ thisQuestion.feedback }}</p>
+				<div class="butn" ng-click="clickContinue()">
+					Continue
+				</div><!-- feedback -->
+			</div>
+		</div><!-- question -->
+		<div class="results {{ (totalQuestions === activeQuestion) ? 'active' : 'inactive' }} ">
+			<h3>Results</h3>
+			<p>You scored {{percentage}}% by correctly answering {{score}} of the total {{totalQuestions}} questions.</p>
+		</div><!-- results -->
+		</div>
+	</div><!-- myQuiz -->
